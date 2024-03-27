@@ -8,7 +8,7 @@ type Blockchain struct {
 	Difficulty   int32
 }
 
-func NewBlockchain() *Blockchain {
+func NewBlockchain(diff int32) *Blockchain {
 	genesis := Block{
 		Timestamp: time.Now().Unix(),
 		Hash:      "0",
@@ -17,11 +17,18 @@ func NewBlockchain() *Blockchain {
 	genesis.calculateHash()
 
 	return &Blockchain{
+		Difficulty:   diff,
 		GenesisBlock: genesis,
+		Chain:        []Block{genesis},
 	}
 }
 
 func (bc *Blockchain) AppendBlock(data BlockData) {
+
+	if len(bc.Chain) <= 0 {
+		return
+	}
+
 	var (
 		lb = bc.Chain[len(bc.Chain)-1]
 		nb = Block{

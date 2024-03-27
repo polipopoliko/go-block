@@ -12,11 +12,11 @@ import (
 	"github.com/libp2p/go-libp2p/core/peer"
 	"github.com/libp2p/go-libp2p/core/peerstore"
 	"github.com/multiformats/go-multiaddr"
+	server "github.com/polipopoliko/go-block/api/websocket"
 	"github.com/polipopoliko/go-block/bootstrap"
 	"github.com/polipopoliko/go-block/internal/nodes"
 	"github.com/polipopoliko/go-block/internal/stream"
 	usecase "github.com/polipopoliko/go-block/internal/usecase/stream"
-	"github.com/polipopoliko/go-block/pkg/blockchain"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	gologging "github.com/whyrusleeping/go-logging"
@@ -43,9 +43,11 @@ var (
 					node        = nodes.NewNodes(port, seed, dial)
 					ctx, cancel = context.WithCancel(context.Background())
 					mtx         = &sync.Mutex{}
-					bc          = blockchain.NewBlockchain()
 				)
-				defer cancel()
+				defer func() {
+					cancel()
+					container.Close()
+				}()
 
 				host, err := node.GetHost()
 				if err != nil {
@@ -57,7 +59,7 @@ var (
 				}
 
 				var (
-					uc   = usecase.NewStreamUsecase(mtx, bc)
+					uc   = usecase.NewStreamUsecase(mtx, container.GetBlockChain())
 					strm = stream.NewStream(ctx, uc, mtx, viper.GetDuration("configuration.sync_delay"))
 				)
 
@@ -92,6 +94,9 @@ var (
 					pstrm.StreamHandler()(s)
 				}
 
+				if len(dial) <= 0 {
+					go server.Serve(container)
+				}
 				sig := make(chan os.Signal, 1)
 				signal.Notify(sig, os.Interrupt, syscall.SIGTERM, syscall.SIGKILL)
 

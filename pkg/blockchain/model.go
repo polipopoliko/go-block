@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type BlockData struct {
@@ -19,6 +20,17 @@ type Block struct {
 	Timestamp    int64     `json:"timestamp"`
 	Height       int       `json:"height"`
 	Pow          int       `json:"pow"`
+}
+
+func GenerateBlock(oldBlock Block, message string) *Block {
+	return &Block{
+		Data: BlockData{
+			Message: message,
+		},
+		PreviousHash: oldBlock.PreviousHash,
+		Height:       oldBlock.Height + 1,
+		Timestamp:    time.Now().Unix(),
+	}
 }
 
 func (b *Block) calculateHash() string {

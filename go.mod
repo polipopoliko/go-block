@@ -4,11 +4,13 @@ go 1.21
 
 require (
 	github.com/ethereum/go-ethereum v1.13.14
-	github.com/google/uuid v1.6.0
+	github.com/gorilla/websocket v1.5.1
 	github.com/libp2p/go-libp2p v0.33.0
+	github.com/libp2p/go-libp2p-pubsub v0.10.0
 	github.com/multiformats/go-multiaddr v0.12.2
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.18.2
+	github.com/stretchr/testify v1.9.0
 	github.com/whyrusleeping/go-logging v0.0.1
 )
 
@@ -26,6 +28,7 @@ require (
 	github.com/containerd/cgroups v1.1.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.5.0 // indirect
 	github.com/crate-crypto/go-kzg-4844 v0.7.0 // indirect
+	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/davidlazar/go-crypto v0.0.0-20200604182044-b73af7476f6c // indirect
 	github.com/deckarep/golang-set/v2 v2.1.0 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.2.0 // indirect
@@ -41,7 +44,8 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/gopacket v1.1.19 // indirect
 	github.com/google/pprof v0.0.0-20240207164012-fb44976bdcd5 // indirect
-	github.com/gorilla/websocket v1.5.1 // indirect
+	github.com/google/uuid v1.6.0 // indirect
+	github.com/hashicorp/golang-lru/v2 v2.0.5 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/holiman/uint256 v1.2.4 // indirect
 	github.com/huin/goupnp v1.3.0 // indirect
@@ -85,6 +89,7 @@ require (
 	github.com/pbnjay/memory v0.0.0-20210728143218-7b4eea64cf58 // indirect
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/prometheus/client_golang v1.18.0 // indirect
 	github.com/prometheus/client_model v0.6.0 // indirect
 	github.com/prometheus/common v0.47.0 // indirect

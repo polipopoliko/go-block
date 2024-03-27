@@ -57,6 +57,7 @@ func (s *Stream) Read(ctx context.Context) {
 		default:
 			data, err := s.ReadWriter.ReadString(model.Delim)
 			if err != nil || data == "" || data == string(model.Delim) {
+				log.Println("err rw", err)
 				if strings.Contains(err.Error(), "stream reset") {
 					time.Sleep(1 * time.Second)
 				}
@@ -64,7 +65,7 @@ func (s *Stream) Read(ctx context.Context) {
 				continue
 			}
 
-			log.Println("reader err ", s.Rw.Reader(ctx, data))
+			s.Rw.Reader(ctx, data)
 		}
 	}
 }
@@ -83,13 +84,12 @@ func (s *Stream) Write(ctx context.Context) {
 				continue
 			}
 
-			cnt, err := s.ReadWriter.WriteString(fmt.Sprintf("%s\n", string(data)))
-			log.Printf("data written %v, err %v\n", cnt, err)
+			_, err = s.ReadWriter.WriteString(fmt.Sprintf("%s\n", string(data)))
+			log.Printf("data written %v, err %v\n", string(data), err)
 			if err != nil {
 				continue
 			}
-
-			log.Println("writer flush err", s.ReadWriter.Flush())
+			s.ReadWriter.Flush()
 		}
 	}
 }
